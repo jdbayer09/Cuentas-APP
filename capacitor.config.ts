@@ -1,11 +1,11 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'CuentasApp',
+  appId: 'com.jdbayer.cuentas.app',
+  appName: 'Cuentas',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http'
   }
 };
 
