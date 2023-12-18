@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
 import { DatabaseService } from './util/database.service';
-import { SQLiteDBConnection } from '@capacitor-community/sqlite';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  private db!: SQLiteDBConnection;
-
-  constructor(private databaseSV: DatabaseService) { 
-    this.db = this.databaseSV.getDb();
-  }
+  constructor(private databaseSV: DatabaseService) {}
 
   async loadCategories(): Promise<Category[]>{
-    let resp = (await this.db.query('SELECT * FROM categories ORDER BY active;')).values;
+    let resp: Category[] = (await this.databaseSV.executeQuery('SELECT * FROM categories ORDER BY active;')).values;
     if (resp) {
       return resp.map(category => {
         category.active     = category.active === 1;
@@ -24,18 +19,17 @@ export class CategoryService {
     } else {
       return [];
     }
-    
   }
 
   async findById(id: number): Promise<Category> {
-    let resp = (await this.db.query(`SELECT * FROM categories WHERE id = ${id};`)).values?.pop();
+    let resp: Category = (await this.databaseSV.executeQuery(`SELECT * FROM categories WHERE id = ${id};`)).values?.pop();
     resp.active     = resp.active === 1;
     resp.isRepeated = resp.isRepeated === 1;
     return resp;
   }
 
   async loadCategoriesActive(): Promise<Category[]> {
-    let resp = (await this.db.query('SELECT * FROM categories WHERE active = true ORDER BY name;')).values;
+    let resp: Category[] = (await this.databaseSV.executeQuery('SELECT * FROM categories WHERE active = true ORDER BY name;')).values;
     if (resp) {
       return resp.map(category => {
         category.active     = category.active === 1;
@@ -58,7 +52,7 @@ export class CategoryService {
         ${category.isRepeated}, 
         '${currentDate}'
       );`;
-    await this.db.query(query);
+    await this.databaseSV.executeQuery(query);
   }
 
   async update(category: Category) {
@@ -72,17 +66,17 @@ export class CategoryService {
         isRepeated = ${category.isRepeated},
       WHERE 
         id = ${category.id};`;
-    await this.db.query(query);
+    await this.databaseSV.executeQuery(query);
   }
 
   async disable(id: number) {
     const query = `UPDATE categories SET active = false WHERE id = ${id};`;
-    await this.db.query(query);
+    await this.databaseSV.executeQuery(query);
   }
 
   async enable(id: number) {
     const query = `UPDATE categories SET active = true WHERE id = ${id};`;
-    await this.db.query(query);
+    await this.databaseSV.executeQuery(query);
   }
 }
 
@@ -91,7 +85,7 @@ export interface Category {
   name:         string;
   icon:         string;
   description?: string;
-  isRepeated:   boolean;
-  active:       boolean;
+  isRepeated:   boolean | number;
+  active:       boolean | number;
   createdAt?:   Date;
 }

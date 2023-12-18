@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
 import { DatabaseService } from './util/database.service';
-import { SQLiteDBConnection } from '@capacitor-community/sqlite';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentMethodService {
-
-  private db!: SQLiteDBConnection;
-
-  constructor(private databaseSV: DatabaseService) { 
-    this.db = this.databaseSV.getDb();
-  }
+  constructor(private databaseSV: DatabaseService) {}
 
   async loadCategories(): Promise<PaymentMethod[]>{
-    let resp = (await this.db.query('SELECT * FROM payment_methods ORDER BY active;')).values;
+    let resp: PaymentMethod[] = (await this.databaseSV.executeQuery('SELECT * FROM payment_methods ORDER BY active;')).values;
     if (resp) {
       return resp.map(paymentMethod => {
-        paymentMethod.active     = paymentMethod.active === 1;
+        paymentMethod.active  = paymentMethod.active === 1;
         return paymentMethod;
       });
     } else {
@@ -27,13 +21,13 @@ export class PaymentMethodService {
   }
 
   async findById(id: number): Promise<PaymentMethod> {
-    let resp = (await this.db.query(`SELECT * FROM payment_methods WHERE id = ${id};`)).values?.pop();
-    resp.active     = resp.active === 1;
+    let resp: PaymentMethod = (await this.databaseSV.executeQuery(`SELECT * FROM payment_methods WHERE id = ${id};`)).values?.pop();
+    resp.active = resp.active === 1;
     return resp;
   }
 
   async loadCategoriesActive(): Promise<PaymentMethod[]> {
-    let resp = (await this.db.query('SELECT * FROM payment_methods WHERE active = true ORDER BY name;')).values;
+    let resp: PaymentMethod[] = (await this.databaseSV.executeQuery('SELECT * FROM payment_methods WHERE active = true ORDER BY name;')).values;
     if (resp) {
       return resp.map(paymentMethod => {
         paymentMethod.active     = paymentMethod.active === 1;
@@ -54,7 +48,7 @@ export class PaymentMethodService {
         true,
         '${currentDate}'
       );`;
-    await this.db.query(query);
+    await this.databaseSV.executeQuery(query);
   }
 
   async update(paymentMethod: PaymentMethod) {
@@ -67,17 +61,17 @@ export class PaymentMethodService {
         description = ${paymentMethod.description}
       WHERE 
         id = ${paymentMethod.id};`;
-    await this.db.query(query);
+    await this.databaseSV.executeQuery(query);
   }
 
   async disable(id: number) {
     const query = `UPDATE payment_methods SET active = false WHERE id = ${id};`;
-    await this.db.query(query);
+    await this.databaseSV.executeQuery(query);
   }
 
   async enable(id: number) {
     const query = `UPDATE payment_methods SET active = true WHERE id = ${id};`;
-    await this.db.query(query);
+    await this.databaseSV.executeQuery(query);
   }
 }
 
@@ -86,7 +80,7 @@ export interface PaymentMethod {
   name:         string;
   icon:         string;
   description?: string;
-  active:       boolean;
+  active:       boolean | number;
   createdAt?:   Date;
 }
 

@@ -31,9 +31,7 @@ export class DatabaseService {
         false
       );
     }
-
     await this.db.open();
-
     const schema = `
       create table if not exists categories
       (
@@ -96,7 +94,8 @@ export class DatabaseService {
     //console.log(await this.db.getTableList());
   }
 
-  getDb() {
-    return this.db;
+  executeQuery(query: string): Promise<any> {
+    if (!this.db) return Promise.reject('Problemas con la base de datos.');
+    return Promise.resolve(this.db.query(query));
   }
 }

@@ -4,7 +4,17 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    redirectTo: 'z',
+    pathMatch: 'full'
+  },
+  {
+    path: 'z',
+    loadChildren: () => import('./pages/zona/zona.module').then( m => m.ZonaPageModule)
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: 'z'
   }
 ];
 @NgModule({
