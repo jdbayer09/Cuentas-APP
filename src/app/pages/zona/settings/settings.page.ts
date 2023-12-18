@@ -5,11 +5,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
 })
-export class SettingsPage implements OnInit {
-
+export class SettingsPage {
+  viewType = false;
+  viewCategory = true;
   constructor() { }
-
-  ngOnInit() {
-  }
-
 }

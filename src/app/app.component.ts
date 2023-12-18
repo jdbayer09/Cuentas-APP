@@ -15,6 +15,7 @@ export class AppComponent {
     private plf: Platform
   ) {
     if (this.plf.is('cordova') || this.plf.is('capacitor')) {
+      SplashScreen.show();
       this.initApp();
     }
   }
@@ -24,10 +25,8 @@ export class AppComponent {
     await ScreenOrientation.lock({
       orientation: 'portrait-primary'
     });
-    SplashScreen.show();
-
     setTimeout(() => {
       SplashScreen.hide();
-    }, 5000000);    
+    }, 3000);    
   }
 }

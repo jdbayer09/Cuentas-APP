@@ -5,12 +5,10 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './zona.page.html',
   styleUrls: ['./zona.page.scss'],
 })
-export class ZonaPage implements OnInit {
+export class ZonaPage {
 
   constructor() { }
 
-  ngOnInit() {
-    console.log("object");
-  }
+
 
 }

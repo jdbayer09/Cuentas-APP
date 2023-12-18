@@ -9,6 +9,8 @@ export class TypeComponent  implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("types");
+  }
 
 }

@@ -1,10 +1,18 @@
-<ion-header [translucent]="true">
+<ion-header mode="ios">
   <ion-toolbar>
-    <ion-title>settings</ion-title>
+    <ion-segment value="category">
+      <ion-segment-button value="category" layout="icon-start" (click)="viewCategory = true; viewType = false">
+        <ion-label>Categorias</ion-label>
+        <ion-icon name="apps-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="type" layout="icon-start" (click)="viewCategory = false; viewType = true">
+        <ion-label>Tipos de Gastos</ion-label>
+        <ion-icon name="list"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-  <app-type></app-type>
-  <app-category></app-category>
+  <app-type *ngIf="viewType"></app-type>
+  <app-category *ngIf="viewCategory"></app-category>
 </ion-content>
