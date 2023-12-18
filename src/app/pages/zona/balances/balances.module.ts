@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { BalancesPageRoutingModule } from './balances-routing.module';
 
 import { BalancesPage } from './balances.page';
+import { HeaderComponentModule } from 'src/app/components/header/header.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BalancesPageRoutingModule
+    BalancesPageRoutingModule,
+    HeaderComponentModule
   ],
   declarations: [BalancesPage]
 })

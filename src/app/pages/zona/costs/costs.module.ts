@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CostsPageRoutingModule } from './costs-routing.module';
 
 import { CostsPage } from './costs.page';
+import { HeaderComponentModule } from 'src/app/components/header/header.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CostsPageRoutingModule
+    CostsPageRoutingModule,
+    HeaderComponentModule
   ],
   declarations: [CostsPage]
 })

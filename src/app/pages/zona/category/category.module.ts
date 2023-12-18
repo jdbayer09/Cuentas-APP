@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PaymentMethodsPageRoutingModule } from './payment-methods-routing.module';
+import { CategoryPageRoutingModule } from './category-routing.module';
 
-import { PaymentMethodsPage } from './payment-methods.page';
+import { CategoryPage } from './category.page';
 import { HeaderComponentModule } from 'src/app/components/header/header.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { HeaderComponentModule } from 'src/app/components/header/header.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    PaymentMethodsPageRoutingModule,
+    CategoryPageRoutingModule,
     HeaderComponentModule
   ],
-  declarations: [PaymentMethodsPage]
+  declarations: [CategoryPage]
 })
-export class PaymentMethodsPageModule {}
+export class CategoryPageModule {}

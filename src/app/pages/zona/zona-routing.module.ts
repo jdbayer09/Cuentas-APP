@@ -17,10 +17,6 @@ const routes: Routes = [
         loadChildren: () => import('./payment-methods/payment-methods.module').then( m => m.PaymentMethodsPageModule)
       },
       {
-        path: 'settings',
-        loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
-      },
-      {
         path: 'balances',
         loadChildren: () => import('./balances/balances.module').then( m => m.BalancesPageModule)
       },
@@ -29,12 +25,17 @@ const routes: Routes = [
         loadChildren: () => import('./costs/costs.module').then( m => m.CostsPageModule)
       },
       {
+        path: 'category',
+        loadChildren: () => import('./category/category.module').then( m => m.CategoryPageModule)
+      },
+      {
         path: '',
         redirectTo: '/z/home',
         pathMatch: 'full'
       }
     ]
   },
+
 
 
 
