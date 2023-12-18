@@ -24,3 +24,8 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+@import '../node_modules/animate.css/animate.min.css';
+
+.loadingCss {
+    --spinner-color: #0b7a07;
+}

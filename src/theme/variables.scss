@@ -251,3 +251,30 @@ html {
   --ion-color-shade: #0a6b06;
   --ion-color-tint: #238720;
 }
+
+.ion-color-base {
+  --ion-color-base: #699103;
+  --ion-color-base-rgb: 105, 145, 3;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 255, 255, 255;
+  --ion-color-shade: #5c8003;
+  --ion-color-tint: #789c1c;
+}
+
+.ion-color-orange {
+  --ion-color-base: #db681b;
+  --ion-color-base-rgb: 219, 104, 27;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 0, 0, 0;
+  --ion-color-shade: #c15c18;
+  --ion-color-tint: #df7732;
+}
+
+.ion-color-purple {
+  --ion-color-base: #820AD1;
+  --ion-color-base-rgb: 130, 10, 209;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 255, 255, 255;
+  --ion-color-shade: #7209b8;
+  --ion-color-tint: #8f23d6;
+}

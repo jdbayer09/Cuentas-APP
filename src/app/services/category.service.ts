@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { DatabaseService } from './util/database.service';
+import { UtilService } from './util/util.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  constructor(private databaseSV: DatabaseService) {}
+  constructor(
+    private databaseSV: DatabaseService,
+    private utilSV: UtilService
+  ) {}
 
   async loadCategories(): Promise<Category[]>{
     let resp: Category[] = (await this.databaseSV.executeQuery('SELECT * FROM categories ORDER BY active;')).values;
@@ -42,26 +46,41 @@ export class CategoryService {
   }
 
   async addCategory(category: Category) {
-    const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    const query = `
-      INSERT INTO categories (name, icon, description, active, isRepeated, createdAt) VALUES (
-        '${category.name}', 
-        '${category.icon}', 
-        '${category.description}', 
-        true, 
-        ${category.isRepeated}, 
-        '${currentDate}'
-      );`;
-    await this.databaseSV.executeQuery(query);
+    if (await this.validateExistCategoryName(category.name)) {
+      const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      const query = `
+        INSERT INTO categories (name, icon, color, description, active, isRepeated, createdAt) VALUES (
+          '${category.name}', 
+          '${category.icon}', 
+          '${category.color}',
+          '${category.description}', 
+          true, 
+          ${category.isRepeated}, 
+          '${currentDate}'
+        );`;
+      await this.databaseSV.executeQuery(query);
+    } else {
+      this.utilSV.presentToast('danger', `Ya existe una categoría con el nombre "${category.name}"`);
+    }
+  }
+
+
+  private async validateExistCategoryName(name: string): Promise<boolean> {
+    let resp: Category = (await this.databaseSV.executeQuery(`SELECT * FROM categories WHERE name = '${name}';`)).values?.pop();
+    if (resp) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   async update(category: Category) {
     const query = `
       UPDATE 
         categories 
-      SET 
-        name = ${category.name},
+      SET
         icon = ${category.icon},
+        color = ${category.color},
         description = ${category.description},
         isRepeated = ${category.isRepeated},
       WHERE 
@@ -84,6 +103,7 @@ export interface Category {
   id:           number;
   name:         string;
   icon:         string;
+  color:        string;
   description?: string;
   isRepeated:   boolean | number;
   active:       boolean | number;

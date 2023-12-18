@@ -38,6 +38,7 @@ export class DatabaseService {
           id INTEGER primary key autoincrement,
           name        TEXT not null,
           icon        TEXT NOT NULL,
+          color       TEXT NOT NULL,
           description TEXT,
           isRepeated  BOOLEAN NOT NULL,
           active      BOOLEAN not null,
@@ -84,7 +85,6 @@ export class DatabaseService {
           createdAt       datetime not null
       );
     `;
-    await this.db.execute(schema);
 
     //await this.db.execute('DROP TABLE IF EXISTS categories;');
     //await this.db.execute('DROP TABLE IF EXISTS payment_methods;');
@@ -92,6 +92,9 @@ export class DatabaseService {
     //await this.db.execute('DROP TABLE IF EXISTS payment_the_costs;');
     //await this.db.execute('DROP TABLE IF EXISTS balances;');
     //console.log(await this.db.getTableList());
+
+    
+    await this.db.execute(schema);
   }
 
   executeQuery(query: string): Promise<any> {
