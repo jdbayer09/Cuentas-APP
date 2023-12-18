@@ -1,7 +1,7 @@
 {
-  "name": "CuentasApp",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
+  "name": "cuentas-app",
+  "version": "1.0.0",
+  "author": "Julian Bayer",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
@@ -47,6 +47,7 @@
     "@angular/cli": "^17.0.0",
     "@angular/compiler-cli": "^17.0.2",
     "@angular/language-service": "^17.0.2",
+    "@capacitor/assets": "^3.0.4",
     "@capacitor/cli": "5.6.0",
     "@ionic/angular-toolkit": "^9.0.0",
     "@types/jasmine": "~5.1.0",
