@@ -10,11 +10,11 @@
       </ion-refresher-content>
   </ion-refresher>
 
-  <ion-grid class="animate__animated animate__fadeIn" *ngIf="!viewAddButton">
+  <ion-grid class="text-center-no-more-cat animate__animated animate__fadeIn" *ngIf="!viewAddButton">
     <ion-row>
         <ion-col>
             <ion-label color="danger">
-              Ya no puedes crear mas categorías por que tienes 100, actualiza alguna que no estes usando.
+              Ya no puedes crear mas categorías por que tienes 100, actualiza alguna que no estes usando
             </ion-label>
         </ion-col>
     </ion-row>
@@ -37,7 +37,7 @@
     </ion-item>
   </ion-card>
 
-  <ion-grid class="text-center-jdb animate__animated animate__fadeIn" *ngIf="categories.length === 0 && !loading">
+  <ion-grid class="text-center-no-cat animate__animated animate__fadeIn" *ngIf="categories.length === 0 && !loading">
     <ion-row>
         <ion-col>
             <ion-label color="medium">
