@@ -14,6 +14,8 @@ export class CategoryPage implements OnInit {
   categories: Category[] = [];
   loading: boolean = true;
 
+  viewAddButton: boolean = true;
+
   constructor(
     private categorySV: CategoryService,
     private utilSV: UtilService,
@@ -108,6 +110,10 @@ export class CategoryPage implements OnInit {
       this.loading = false;
       if (event)
         event.target.complete();
+
+      if (this.categories.length >= 100) {
+        this.viewAddButton = false;
+      }
     }, 1000);
   }
 
