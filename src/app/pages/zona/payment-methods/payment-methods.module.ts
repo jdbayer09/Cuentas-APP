@@ -8,6 +8,7 @@ import { PaymentMethodsPageRoutingModule } from './payment-methods-routing.modul
 
 import { PaymentMethodsPage } from './payment-methods.page';
 import { HeaderComponentModule } from 'src/app/components/header/header.module';
+import { PaymentMethodModalModule } from 'src/app/modals/payment-method-modal/payment-method-modal.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { HeaderComponentModule } from 'src/app/components/header/header.module';
     FormsModule,
     IonicModule,
     PaymentMethodsPageRoutingModule,
-    HeaderComponentModule
+    HeaderComponentModule,
+    PaymentMethodModalModule
   ],
   declarations: [PaymentMethodsPage]
 })

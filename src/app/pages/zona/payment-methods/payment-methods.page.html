@@ -1,8 +1,56 @@
 <app-header
   tittle="Métodos de Pago"
-  [viewAddButton]="true">
+  (addEvent)="newPaymentMethod()"
+  [viewAddButton]="viewAddButton">
 </app-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
+      <ion-refresher-content refreshingSpinner="bubbles">
+      </ion-refresher-content>
+  </ion-refresher>
 
+  <ion-grid class="text-center-no-more-cat animate__animated animate__fadeIn" *ngIf="!viewAddButton">
+    <ion-row>
+        <ion-col>
+            <ion-label color="danger">
+              Ya no puedes crear mas metodos de pago por que tienes 50, actualiza alguna que no estes usando
+            </ion-label>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-card *ngFor="let item of paymentMethods" style="margin-bottom:6%;" class="animate__animated animate__fadeIn">
+    <ion-card-header [color]="item.color">
+        <ion-card-title>
+            <ion-icon [name]="item.icon"></ion-icon>
+            {{item.name}} <small style="color: red;" *ngIf="!item.active"><b>BLOQUEADO</b></small>
+        </ion-card-title>
+    </ion-card-header>
+    <ion-item>
+        <ion-button color="success" fill="outline" slot="end" (click)="unlockPaymentMethod(item)" *ngIf="!item.active">Desbloquear</ion-button>
+        <ion-button color="danger" fill="outline" slot="end" (click)="lockPaymentMethod(item)" *ngIf="item.active">Bloquear</ion-button>
+        <ion-button color="warning" fill="outline" slot="end" (click)="editPaymentMethod(item)">Editar</ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-grid class="text-center-no-cat animate__animated animate__fadeIn" *ngIf="paymentMethods.length === 0 && !loading">
+    <ion-row>
+        <ion-col>
+            <ion-label color="medium">
+                No hay ninguna metodo de pago registrado
+            </ion-label>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div *ngIf="paymentMethods.length === 0 && loading" class="animate__animated animate__fadeIn">
+    <div class="ion-padding custom-skeleton" *ngFor="let x of [{}, {}, {}, {}, {}, {}, {}, {}]">
+        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        <ion-skeleton-text animated></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+    </div>
+  </div>
 </ion-content>

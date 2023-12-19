@@ -12,7 +12,7 @@ export class CategoryService {
     private utilSV: UtilService
   ) {}
 
-  async loadCategories(): Promise<Category[]>{
+  async loadAll(): Promise<Category[]>{
     let resp: Category[] = (await this.databaseSV.executeQuery('SELECT * FROM categories ORDER BY active DESC;')).values;
     if (resp) {
       return resp.map(category => {
@@ -32,7 +32,7 @@ export class CategoryService {
     return resp;
   }
 
-  async loadCategoriesActive(): Promise<Category[]> {
+  async loadAllActive(): Promise<Category[]> {
     let resp: Category[] = (await this.databaseSV.executeQuery('SELECT * FROM categories WHERE active = true ORDER BY name;')).values;
     if (resp) {
       return resp.map(category => {

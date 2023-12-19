@@ -13,7 +13,6 @@ export class CategoryPage implements OnInit {
 
   categories: Category[] = [];
   loading: boolean = true;
-
   viewAddButton: boolean = true;
 
   constructor(
@@ -106,7 +105,7 @@ export class CategoryPage implements OnInit {
     this.categories = [];
     this.loading = true;
     setTimeout(async () => {
-      this.categories = await this.categorySV.loadCategories();
+      this.categories = await this.categorySV.loadAll();
       this.loading = false;
       if (event)
         event.target.complete();

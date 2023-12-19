@@ -50,7 +50,7 @@ export class DatabaseService {
           id INTEGER primary key autoincrement,
           name        TEXT not null,
           icon        TEXT NOT NULL,
-          description TEXT,
+          color       TEXT NOT NULL,
           active      BOOLEAN not null,
           createdAt   datetime not null
       );
@@ -86,7 +86,6 @@ export class DatabaseService {
       );
     `;
 
-    //await this.db.execute('DROP TABLE IF EXISTS categories;');
     //await this.db.execute('DROP TABLE IF EXISTS payment_methods;');
     //await this.db.execute('DROP TABLE IF EXISTS costs;');
     //await this.db.execute('DROP TABLE IF EXISTS payment_the_costs;');

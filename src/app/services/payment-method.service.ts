@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { DatabaseService } from './util/database.service';
+import { UtilService } from './util/util.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentMethodService {
-  constructor(private databaseSV: DatabaseService) {}
+  constructor(
+    private databaseSV: DatabaseService,
+    private utilSV: UtilService
+  ) {}
 
-  async loadCategories(): Promise<PaymentMethod[]>{
+  async loadAll(): Promise<PaymentMethod[]>{
     let resp: PaymentMethod[] = (await this.databaseSV.executeQuery('SELECT * FROM payment_methods ORDER BY active;')).values;
     if (resp) {
       return resp.map(paymentMethod => {
@@ -26,7 +30,7 @@ export class PaymentMethodService {
     return resp;
   }
 
-  async loadCategoriesActive(): Promise<PaymentMethod[]> {
+  async loadAllActive(): Promise<PaymentMethod[]> {
     let resp: PaymentMethod[] = (await this.databaseSV.executeQuery('SELECT * FROM payment_methods WHERE active = true ORDER BY name;')).values;
     if (resp) {
       return resp.map(paymentMethod => {
@@ -38,17 +42,30 @@ export class PaymentMethodService {
     }
   }
 
-  async addpaymentMethod(paymentMethod: PaymentMethod) {
-    const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    const query = `
-      INSERT INTO payment_methods (name, icon, description, active, createdAt) VALUES (
-        '${paymentMethod.name}', 
-        '${paymentMethod.icon}', 
-        '${paymentMethod.description}', 
-        true,
-        '${currentDate}'
-      );`;
-    await this.databaseSV.executeQuery(query);
+  async insert(paymentMethod: PaymentMethod) {
+    if (await this.validateExistPaymentMethodName(paymentMethod.name)) {
+      const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      const query = `
+        INSERT INTO payment_methods (name, icon, color, active, createdAt) VALUES (
+          '${paymentMethod.name}', 
+          '${paymentMethod.icon}', 
+          '${paymentMethod.color}', 
+          true,
+          '${currentDate}'
+        );`;
+      await this.databaseSV.executeQuery(query);
+    } else {
+      this.utilSV.presentToast('danger', `Ya existe un metodo de pago con el nombre "${paymentMethod.name}"`);
+    }
+  }
+
+  private async validateExistPaymentMethodName(name: string): Promise<boolean> {
+    let resp: PaymentMethod = (await this.databaseSV.executeQuery(`SELECT * FROM payment_methods WHERE name = '${name}';`)).values?.pop();
+    if (resp) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   async update(paymentMethod: PaymentMethod) {
@@ -56,9 +73,8 @@ export class PaymentMethodService {
       UPDATE 
         payment_methods 
       SET 
-        name = ${paymentMethod.name},
-        icon = ${paymentMethod.icon},
-        description = ${paymentMethod.description}
+        icon = '${paymentMethod.icon}',
+        color = '${paymentMethod.color}'
       WHERE 
         id = ${paymentMethod.id};`;
     await this.databaseSV.executeQuery(query);
@@ -79,7 +95,7 @@ export interface PaymentMethod {
   id:           number;
   name:         string;
   icon:         string;
-  description?: string;
+  color:        string;
   active:       boolean | number;
   createdAt?:   Date;
 }
