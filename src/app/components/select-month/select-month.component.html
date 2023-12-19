@@ -1,0 +1,7 @@
+<ion-select aria-label="MES" placeholder="MES" [(ngModel)]="selectedMonht" (ionChange)="emmit()" *ngIf="!isForm" [disabled]="disabled">
+  <ion-select-option *ngFor="let month of months" [value]="month.val">{{month.name}}</ion-select-option>
+</ion-select>
+
+<ion-select aria-label="MES" placeholder="MES" *ngIf="isForm" [formControlName]="formControlName">
+  <ion-select-option *ngFor="let month of months" [value]="month.val">{{month.name}}</ion-select-option>
+</ion-select>

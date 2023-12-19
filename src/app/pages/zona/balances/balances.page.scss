@@ -1,0 +1,19 @@
+.scrollable-content {
+    padding-top: 0px; /* Ajusta según la altura de tu contenido fijo */
+    /* Otros estilos que necesites */
+}
+
+.fixed-content {
+  position: sticky;
+  top: 0;
+  background-color: #111111;
+  z-index: 1; /* Para asegurar que el contenido fijo esté encima del desplazable */
+}
+
+.scroll-content {
+  overflow-y: auto; /* Permitir desplazamiento vertical */
+}
+
+.val-item{
+  font-size: 20px;
+}

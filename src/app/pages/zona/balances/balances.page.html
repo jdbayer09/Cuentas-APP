@@ -3,6 +3,95 @@
   [viewAddButton]="true">
 </app-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true"  [class]="balances.length > 2 ? 'scroll-content': ''">
+  <ion-grid [class]="balances.length > 2 ? 'fixed-content' : ''">
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <app-select-month [disabled]="loading" (changeVal)="selectMonth($event)"></app-select-month>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <app-select-year [disabled]="loading" (changeVal)="selectYear($event)"></app-select-year>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="animate__animated animate__fadeIn" *ngIf="totalBalance > 0">
+      <ion-col>
+        <h2><b>Total Ingresos:</b></h2>
+      </ion-col>
+      <ion-col>
+        <h2>{{totalBalance | currency:'$':'symbol':'1.0-0'}}</h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
+  <div [class]="balances.length > 2 ? 'scrollable-content' : ''">
+    <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
+      <ion-refresher-content refreshingSpinner="bubbles">
+      </ion-refresher-content>
+  </ion-refresher>
+    <ion-card *ngFor="let item of balances" style="margin-bottom:6%;" class="animate__animated animate__fadeIn">
+      <ion-card-header color="app">
+          <ion-card-title style="text-align: center;">
+              {{item.name}} 
+          </ion-card-title>
+      </ion-card-header>
+      <ion-card-content style="margin-top: 3%; text-align: justify;">
+        <ion-grid>
+          <ion-row class="val-item">
+            <ion-col>
+              <ion-label color="dark">
+                <b>Valor: </b>
+              </ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label color="dark">
+                {{item.value | currency:'$':'symbol':'1.0-0'}}
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label>
+                <b>Fecha Ingreso: </b>
+              </ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>
+                {{item.createdAt | date}}
+              </ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+      <ion-item>
+          <ion-button color="danger" fill="outline" slot="end" (click)="deleteBalance(item)">Eliminar</ion-button>
+          <ion-button color="warning" fill="outline" slot="end" (click)="editBalance(item)">Editar</ion-button>
+      </ion-item>
+    </ion-card>
+    <ion-grid class="text-center-no-cat animate__animated animate__fadeIn" *ngIf="balances.length === 0 && !loading">
+      <ion-row>
+          <ion-col>
+              <ion-label color="medium">
+                  No hay ninguna ingreso registrado en las fechas seleccionadas
+              </ion-label>
+          </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div *ngIf="balances.length === 0 && loading" class="animate__animated animate__fadeIn">
+      <div class="ion-padding custom-skeleton" *ngFor="let x of [{}, {}, {}, {}, {}, {}, {}, {}]">
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+      </div>
+    </div>
+  </div>
+
+
+
+  
 </ion-content>

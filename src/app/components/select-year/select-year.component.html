@@ -1,0 +1,11 @@
+<ion-select aria-label="AÑO" placeholder="AÑO" [(ngModel)]="selectedYear" (ionChange)="emmit()" *ngIf="!isForm" [disabled]="disabled">
+  <ion-select-option [value]="actualYear - 1">{{actualYear - 1}}</ion-select-option>
+  <ion-select-option [value]="actualYear">{{actualYear}}</ion-select-option>
+  <ion-select-option [value]="actualYear + 1">{{actualYear + 1}}</ion-select-option>
+</ion-select>
+
+<ion-select aria-label="AÑO" placeholder="AÑO" *ngIf="isForm" [formControlName]="formControlName">
+  <ion-select-option [value]="actualYear - 1">{{actualYear - 1}}</ion-select-option>
+  <ion-select-option [value]="actualYear">{{actualYear}}</ion-select-option>
+  <ion-select-option [value]="actualYear + 1">{{actualYear + 1}}</ion-select-option>
+</ion-select>

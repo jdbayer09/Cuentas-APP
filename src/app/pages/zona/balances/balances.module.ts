@@ -8,6 +8,8 @@ import { BalancesPageRoutingModule } from './balances-routing.module';
 
 import { BalancesPage } from './balances.page';
 import { HeaderComponentModule } from 'src/app/components/header/header.module';
+import { SelectMonthModule } from 'src/app/components/select-month/select-month.module';
+import { SelectYearModule } from 'src/app/components/select-year/select-year.module';
 
 @NgModule({
   imports: [
@@ -15,7 +17,9 @@ import { HeaderComponentModule } from 'src/app/components/header/header.module';
     FormsModule,
     IonicModule,
     BalancesPageRoutingModule,
-    HeaderComponentModule
+    HeaderComponentModule,
+    SelectMonthModule,
+    SelectYearModule
   ],
   declarations: [BalancesPage]
 })
