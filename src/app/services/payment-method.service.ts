@@ -12,7 +12,7 @@ export class PaymentMethodService {
   ) {}
 
   async loadAll(): Promise<PaymentMethod[]>{
-    let resp: PaymentMethod[] = (await this.databaseSV.executeQuery('SELECT * FROM payment_methods ORDER BY active;')).values;
+    let resp: PaymentMethod[] = (await this.databaseSV.executeQuery('SELECT * FROM payment_methods ORDER BY active DESC;')).values;
     if (resp) {
       return resp.map(paymentMethod => {
         paymentMethod.active  = paymentMethod.active === 1;
