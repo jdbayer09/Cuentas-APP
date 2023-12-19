@@ -8,6 +8,7 @@ import { CategoryPageRoutingModule } from './category-routing.module';
 
 import { CategoryPage } from './category.page';
 import { HeaderComponentModule } from 'src/app/components/header/header.module';
+import { CategoryModalModule } from 'src/app/modals/category-modal/category-modal.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { HeaderComponentModule } from 'src/app/components/header/header.module';
     FormsModule,
     IonicModule,
     CategoryPageRoutingModule,
-    HeaderComponentModule
+    HeaderComponentModule,
+    CategoryModalModule
   ],
   declarations: [CategoryPage]
 })

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
+import { CategoryModal } from 'src/app/modals/category-modal/category.modal';
 import { Category, CategoryService } from 'src/app/services/category.service';
 import { UtilService } from 'src/app/services/util/util.service';
 
@@ -16,13 +17,18 @@ export class CategoryPage implements OnInit {
   constructor(
     private categorySV: CategoryService,
     private utilSV: UtilService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController
   ) { 
-    
+
   }
 
   ngOnInit() {
     this.loadData();
+  }
+
+  async newCategory() {
+    this.openModalCategory();
   }
 
   lockCategory(category: Category) {
@@ -31,8 +37,26 @@ export class CategoryPage implements OnInit {
   unlockCategory(category: Category) {
     this.lockUnlockAction(category, 'unlock');
   }
-  editCategory(category: Category) {
 
+  editCategory(category: Category) {
+    this.openModalCategory({category});
+  }
+
+  private async openModalCategory(componentProps?: {category: Category}) {
+    const modal = await this.modalCtrl.create({
+      component: CategoryModal,
+      backdropDismiss: false,
+      componentProps,
+      animated: true
+    });
+    await modal.present();
+    const { resp } = (await modal.onDidDismiss()).data;
+
+    if (resp) {
+      setTimeout(() => {
+        this.loadData();
+      }, 100);
+    }
   }
 
 

@@ -13,7 +13,7 @@ export class CategoryService {
   ) {}
 
   async loadCategories(): Promise<Category[]>{
-    let resp: Category[] = (await this.databaseSV.executeQuery('SELECT * FROM categories ORDER BY active;')).values;
+    let resp: Category[] = (await this.databaseSV.executeQuery('SELECT * FROM categories ORDER BY active DESC;')).values;
     if (resp) {
       return resp.map(category => {
         category.active     = category.active === 1;
@@ -45,15 +45,15 @@ export class CategoryService {
     }
   }
 
-  async addCategory(category: Category) {
+  async insert(category: Category) {
     if (await this.validateExistCategoryName(category.name)) {
       const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
       const query = `
         INSERT INTO categories (name, icon, color, description, active, isRepeated, createdAt) VALUES (
-          '${category.name}', 
+          '${category.name.toUpperCase()}', 
           '${category.icon}', 
           '${category.color}',
-          '${category.description}', 
+          '${category.description? category.description: ''}', 
           true, 
           ${category.isRepeated}, 
           '${currentDate}'
@@ -79,10 +79,10 @@ export class CategoryService {
       UPDATE 
         categories 
       SET
-        icon = ${category.icon},
-        color = ${category.color},
-        description = ${category.description},
-        isRepeated = ${category.isRepeated},
+        icon = '${category.icon}',
+        color = '${category.color}',
+        description = '${category.description? category.description: ''}',
+        isRepeated = ${category.isRepeated}
       WHERE 
         id = ${category.id};`;
     await this.databaseSV.executeQuery(query);
